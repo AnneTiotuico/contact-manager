@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Contact Manager</title>
+  <script src="./javascripts/jquery.js"></script>
+  <script src="./javascripts/handlebars.js"></script>
+  <link rel="stylesheet" href="./stylesheets/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,300,0,0" />
+</head>
+<body>
+  <header>
+    <h1>Contact Manager</h1>
+    <p>Using VanillaJS and Handlebars</p>
+  </header>
+
+  <main>
+    
+  </main>
+
+  <footer>
+    <p>Developed by <a href="https://github.com/AnneTiotuico" target="_blank">Anne Tiotuico</a></p>
+  </footer>
+
+  <script id="searchTemplate" type="text/x-handlebars">
+     <div class="search-nav">
+      <button class="add add-edit btn-outline" data-action="Create">
+        <span class="material-symbols-outlined">
+          person_add
+        </span>
+        Add Contact
+      </button>
+      <input type="text" placeholder="Search" />
+    </div>
+  </script>
+
+  <script id="noContactsTemplate" type="text/x-handlebars">
+    {{> searchTemplate}}
+    <h3>There are no contacts.</h3>
+    <button class="add add-edit btn-outline" data-action="Create">
+      <span class="material-symbols-outlined">
+        person_add
+      </span>
+      Add Contact
+    </button>
+  </script>
+
+  <script id="noMatchTemplate" type="text/x-handlebars">
+    {{> searchTemplate}}
+    <div>
+      <h3>There are no contacts that start with 'letter'.</h3>
+    </div>
+  </script>
+
+  <script id="tagsTemplate" type="text/x-handlebars">
+
+  </script>
+
+  <script id="contactFormTemplate" type="text/x-handlebars">
+    <h2 class="form-heading">{{action}} Contact</h2>
+    <form class="contact" data-action-type="{{action}}" data-contact-id="{{contactId}}">
+        <div class="form-field">
+          <label for="full_name">Full Name:</label>
+          <input type="text" id="full_name" name="full_name">
+        </div>
+
+        <div class="form-field">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email">
+        </div>
+          
+        <div class="form-field">
+          <label for="phone_number">Phone Number:</label>
+          <input type="text" id="phone_number" name="phone_number">
+        </div>
+          
+        <div class="form-field">
+          <label for="tags">Tags:</label>
+          <input type="hidden" id="tags" name="tags">
+          <div class="tag-container">
+            <input />
+          </div>
+          <button class="add-tag btn-outline">Add Tag</button>
+        </div>
+
+        <div class="form-btns">
+          <button type="submit" id="btn-submit" class="submit btn-outline btn-block btn-lg">Submit</button>
+          <button class="cancel btn-outline btn-block btn-lg">Cancel</button>
+        </div>
+      </form>
+  </script>
+
+  <script id="contactDisplayTemplate" type="text/x-handlebars">
+    <div class="contact-tile" data-contact-id="{{id}}">
+      <h3>{{full_name}}</h3>
+      <dl>
+        <dt>Phone Number:</dt>
+        <dd>{{phone_number}}
+        <dt>Email:</dt>
+        <dd>{{email}}
+        <dt>Tags:</dt>
+        <dd>{{tags}}</dd>
+      </dl>
+      <button class="add-edit btn-outline" data-action="Edit">
+        <span class="edit material-symbols-outlined">
+          edit
+        </span>
+        Edit
+      </button>
+      <button class="delete btn-outline">
+        <span class="material-symbols-outlined">
+          delete
+        </span>
+        Delete
+      </button>
+    </div>
+  </script>
+
+  <script id="contactsList" type="text/x-handlebars">
+    {{> searchTemplate}}
+    <div class="contacts-list">
+      {{#each contacts}}
+      {{> contactDisplayTemplate }}
+      {{/each}}
+    </div>
+  </script>
+
+  <script src="/javascripts/contacts.js"></script>
+</body>
+</html>
+
+

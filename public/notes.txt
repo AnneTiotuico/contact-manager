@@ -1,0 +1,175 @@
+Model
+- stores data
+- methods that manipulates data
+- methods that make requests to API
+  - methods that implement CRUD operations with API
+
+View
+- methods that create HTML elements
+- methods that grabs/renders Handlebars templates
+- methods that grab existing HTML elements
+- methods that add event listeners to exisiting elements
+  - methods that implement CRUD operations but with elements
+  - invokes the handler from Controller which calls Model methods that update data on the API server
+- method that displays the page with elements and updated data
+
+Controller
+- in constructor method:
+  - instantiates Model and View
+  - calls CRUD 'bind' methods from the View with Controller CRUD methods passed in as callbacks
+- method that calls the View method to update the display of the page using data from Model
+- methods that handle CRUD operations 
+  - calls CRUD methods from Model 
+
+HTML
+- links libraries, scripts, stylesheets
+- has elements that will always be there 
+- initial/starting elements
+- handlebars templates
+
+
+Overview:
+- create an contact manager app 
+- add contact
+- display contact
+- edit contact
+- delete contact
+
+Page:
+- header: 
+  - Contact Manager heading
+- nav: 
+  - Add contact button
+  - Search bar
+  - select box with tags?
+- main:
+  - GET request
+  - if no contacts:
+    - heading 'There are no contacts.'
+    - Add contact button
+  - if contacts:
+    - display each contact info in a grid
+    - h3 name
+    - phone number
+    - email
+    - edit button
+    - delete button
+- footer:
+  - developed by Anne
+
+- add button -> create contact form
+  - h2 Create Contact
+  - contact form
+    - full name label & input
+    - email address label & input
+    - phone number label & input
+    - tags label & input
+    - submit button
+    - cancel button
+
+- edit button -> edit contact form
+  - h2 Edit Contact
+  - edit contact form
+    - full name label & input
+    - email address label & input
+    - phone number label & input
+    - tags label & input
+    - submit button
+    - cancel button
+
+- the create and edit contact forms could be handlebars templates
+  - differences are filled by variables in templates
+  - cancel button should be the same functionality
+  - submit button
+    - add will be a POST request?
+    - edit will be a PUT request?
+
+- delete button 
+  - alert asking if you want to delete the contact
+    - cancel 
+      - close alert
+    - ok
+      - DELETE request
+
+- when user types into search bar:
+  - if no contacts exist:
+    - show div `There are no contacts starting with ${char}`
+  - if contacts exist:
+    - if user enters characters that match existing names
+      - only display contacts that match
+      - remove/hide contacts that don't match
+    - if characters don't match
+      - hide all contacts
+      - show div `There are no contacts starting with ${char}`
+      - when user backspaces in search
+        - show all contacts
+        - show div at the bottom of contacts
+
+- animations:
+  - each template slides from the bottom
+
+- handlebars templates:
+  - noMatchTemplate
+  - tagsTemplate
+  - contactFormTemplate
+  - contactDisplayTemplate
+    - when contact info is display with this template
+      maybe have a hidden element with name as contact_id_{{id}} and value {{id}} (see refactoring assignment)
+
+To start:
+- code out Model
+  - within contructor
+    - hold data this.contacts
+  - method that GETs all the contacts from API server
+  - method that GETs a single contact from API server
+    - 200 OK / 400 ContactNotFound if ID doesn't exist
+  - method that adds/POSTs a contact to the API server
+    - 
+  - method that updates/PUTs an exisiting contact in the API server
+  - method that DELETEs an exisiting contact from API server
+
+- code out View
+  - within constructor
+    - grab main element/tag (this is the middle of the page where the content will be dynamic)
+    - grab noContactsTemplate
+    - grab noMatchTemplate
+    - grab tagsTemplate
+    - contactFormTemplate
+    - contactDisplayTemplate
+  - method that grabs elements from HTML (main element or templates)
+  - method that displays the content
+
+- code out Controller
+  - within constructor
+    - save model and View
+    - display initial main content 
+    - this.View bind method CRUD events, passing in Controller's handle events
+    - this.Model.bindContacts changed method passing in Controller's onContacts changed method
+    * this above two is so that the View or Model will call the Controller handle or onChanged methods with Controller as context
+  - method onContacts changed 
+  - method handle getContacts
+  - method handle getContact
+  - method handle addContact
+  - method handle editContact
+  - method handle deleteContact
+  *note that these handle events and onContactsChanged are arrow functions so that when they are called within View, they keep the context of Controller
+
+  - should nav (search & top add button) be a partial template?
+    - since it goes away when the forms are displayed
+
+
+  - validations:
+    - all the fields are required
+    - full name 
+      - must be non-empty string / not just white space
+      - must be all letters and spaces
+      - case insensitive
+        - format to first letter capitalized when sent in POST
+    - email 
+      - must be non-empty string / not just white space
+      - valid email (does input type email work?)
+      - case insensitive
+        - format to all lowercase when sent in POST
+    - phone
+      - all digits only
+      - 10 digits ?
