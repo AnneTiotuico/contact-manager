@@ -45,12 +45,18 @@ class Model {
     this.displayCurrentContacts(this.contacts);
   }
 
-  // filterTags(tag) {
-  //   let result = this.contacts.filter(({tags}) => {
-  //     return tags && tags.split(',').includes(tag);
-  //   });
-  //   console.log(result);
-  // }
+  filterTags(tag) {
+    return this.contacts.filter(({tags}) => {
+      return tags && tags.split(',').includes(tag);
+    });
+  }
+
+  filterSearch(input) {
+    return this.contacts.filter(({full_name}) => {
+      full_name = full_name.toLowerCase();
+      return full_name.startsWith(input.toLowerCase());
+    });
+  }
 
   bindContactsChanged(callback) {
     this.displayCurrentContacts = callback;

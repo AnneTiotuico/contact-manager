@@ -9,13 +9,19 @@ class Controller {
     this.displayCurrentContacts();
 
     this.view.toggleContactForm(this.displayCurrentContacts);
-    this.view.bindShowAll(this.displayCurrentContacts);
+
     this.view.bindAddContact(this.handleAddContact);
     this.view.bindEditContact(this.handleEditContact);
     this.view.bindDeleteContact(this.handleDeleteContact);
     this.view.bindFilterTags(this.handleFilterTags);
 
+    this.view.bindSearchFilter(this.handleFilterSearch);
+
+    this.view.bindShowAll(this.displayCurrentContacts);
+
     this.model.bindContactsChanged(this.displayCurrentContacts);
+
+
   }
 
   displayCurrentContacts = async () => {
@@ -36,10 +42,13 @@ class Controller {
   }
 
   handleFilterTags = tag => {
-    let filteredTags = this.model.contacts.filter(({tags}) => {
-      return tags && tags.split(',').includes(tag);
-    });
-    this.view.displayContacts(filteredTags, true);
+    let filteredTags = this.model.filterTags(tag);
+    this.view.displayContacts(filteredTags, null, true);
+  }
+
+  handleFilterSearch = input => {
+    let filteredSearch = this.model.filterSearch(input);
+    this.view.displayContacts(filteredSearch, input, true);
   }
 }
 

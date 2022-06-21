@@ -31,28 +31,28 @@
     "full_name": "anne",
     "phone_number": "123",
     "email": "test@email.com",
-    "tags": "test",
+    "tags": "update,hi,test",
     "id": 6
   },
   {
-    "full_name": "testing",
-    "phone_number": "23545",
-    "email": "test@email.com",
-    "tags": "test",
+    "full_name": "edited",
+    "phone_number": null,
+    "email": null,
+    "tags": "updates",
     "id": 7
   },
   {
     "full_name": "updateme",
-    "phone_number": "23545",
+    "phone_number": "1234",
     "email": "test@email.com",
-    "tags": "update",
+    "tags": "update,test,hi",
     "id": 8
   },
   {
-    "full_name": "edited",
+    "full_name": "annemelody",
     "phone_number": "1234",
     "email": "test@email.com",
-    "tags": "update",
-    "id": 10
+    "tags": "test,there,here",
+    "id": 9
   }
 ]

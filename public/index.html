@@ -32,25 +32,30 @@
         </span>
         Add Contact
       </button>
-      <input type="text" placeholder="Search" />
+      <input class="search" type="text" placeholder="Search" />
     </div>
   </script>
 
   <script id="noContactsTemplate" type="text/x-handlebars">
     {{> searchTemplate}}
-    <h3>There are no contacts.</h3>
-    <button class="add add-edit btn-outline" data-action="Create">
-      <span class="add-edit material-symbols-outlined">
-        person_add
-      </span>
-      Add Contact
-    </button>
+    <div class="no-contacts">
+      <h3>There are no contacts.</h3>
+      <button class="add add-edit btn-outline" data-action="Create">
+        <span class="add-edit material-symbols-outlined">
+          person_add
+        </span>
+        Add Contact
+      </button>
+    </div>
   </script>
 
   <script id="noMatchTemplate" type="text/x-handlebars">
     {{> searchTemplate}}
-    <div>
-      <h3>There are no contacts that start with 'letter'.</h3>
+    {{#if filtered}}
+    <button class="show-all btn-outline">Show All Contacts</button>
+    {{/if}}
+    <div class="no-matches">
+      <h3>There are no contacts that start with '{{searchValue}}''.</h3>
     </div>
   </script>
 
@@ -59,24 +64,27 @@
     <form class="contact" data-action-type="{{action}}" data-contact-id="{{contactId}}">
         <div class="form-field">
           <label for="full_name">Full Name:</label>
-          <input type="text" id="full_name" name="full_name">
+          <input type="text" id="full_name" name="full_name" value="{{contact.name}}">
         </div>
 
         <div class="form-field">
           <label for="email">Email:</label>
-          <input type="email" id="email" name="email">
+          <input type="email" id="email" name="email" value="{{contact.email}}">
         </div>
           
         <div class="form-field">
           <label for="phone_number">Phone Number:</label>
-          <input type="text" id="phone_number" name="phone_number">
+          <input type="text" id="phone_number" name="phone_number" value="{{contact.phone}}">
         </div>
           
         <div class="form-field">
           <label for="tags">Tags:</label>
           <input type="hidden" id="tags" name="tags">
           <div class="tag-container">
-            <input />
+            {{#each (splitTags contact.tags) }}
+            {{> editTagsTemplate }}
+            {{/each}}
+            <input value=""/>
           </div>
           <button class="add-tag btn-outline">Add Tag</button>
         </div>
@@ -88,6 +96,29 @@
       </form>
   </script>
 
+  <script id="formTagsTemplate" type="text/x-handlebars">
+    <div class="tag" data-tag-value="{{tagValue}}">
+      <span>
+        {{tagValue}}
+      </span>
+      <span class="remove-tag material-symbols-outlined">
+        close
+      </span>
+    </div>    
+  </script>
+
+  <script id="editTagsTemplate" type="text/x-handlebars">
+    <div class="tag" data-tag-value="{{this}}">
+      <span>
+        {{this}}
+      </span>
+      <span class="remove-tag material-symbols-outlined">
+        close
+      </span>
+    </div>    
+  </script>
+  
+
   <script id="tagsDisplayTemplate" type="text/x-handlebars">
       <div class="taglink"> 
         <a href="#" class="contact-tag">#{{this}}</a>
@@ -96,18 +127,18 @@
 
   <script id="contactDisplayTemplate" type="text/x-handlebars">
     <div class="contact-tile" data-contact-id="{{id}}">
-      <h3>{{full_name}}</h3>
+      <h3 data-value="{{full_name}}">{{full_name}}</h3>
       <p class="label">Phone Number:</p>
-      <p class="contact-value">{{phone_number}}</p>
+      <p class="contact-value phone" data-value="{{phone_number}}">{{phone_number}}</p>
       <p class="label">Email:</p>
-      <p class="contact-value">{{email}}</p>
+      <p class="contact-value email" data-value="{{email}}">{{email}}</p>
       <p class="label">Tags:</p>
-      <div class="taglinks-container">
+      <div class="taglinks-container tags" data-value="{{tags}}">
         {{#each (splitTags tags) }}
         {{> tagsDisplayTemplate }}
         {{/each}}
       </div>
-      <button class="add-edit btn-outline" data-action="Edit">
+      <button class="edit add-edit btn-outline" data-action="Edit">
         <span class="edit add-edit material-symbols-outlined">
           edit
         </span>

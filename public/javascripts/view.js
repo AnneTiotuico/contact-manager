@@ -11,9 +11,13 @@ class View {
     this.contactDisplayTempl = this.compileTemplate('#contactDisplayTemplate');
     this.searchTempl = this.compileTemplate('#searchTemplate');
     this.tagsTempl = this.compileTemplate('#tagsDisplayTemplate');
+    this.formTagsTempl = this.compileTemplate('#formTagsTemplate');
+    this.editTagsTempl = this.compileTemplate('#editTagsTemplate');
     this.registerTemplate('#searchTemplate');
     this.registerTemplate('#contactDisplayTemplate');
     this.registerTemplate('#tagsDisplayTemplate');
+    this.registerTemplate('#formTagsTemplate');
+    this.registerTemplate('#editTagsTemplate');
     Handlebars.registerHelper('splitTags', function(tags) {
       let tagsArr = tags ? tags.split(',') : null;
       return tagsArr;
@@ -58,7 +62,7 @@ class View {
     Handlebars.registerPartial(templ.id, templ.innerHTML);
   }
 
-  displayContacts(contacts, filtered) {
+  displayContacts(contacts, input, filtered) {
     // resets the main tag's inner html before adding the updated contents
     this.main.innerHTML = '';
     if (contacts.length < 1) {
@@ -66,7 +70,7 @@ class View {
       this.main.insertAdjacentHTML('beforeend', this.noContactsTempl());
     } else {
       // displays each contact
-      this.main.insertAdjacentHTML('beforeend', this.contactsList({contacts, filtered}));
+      this.main.insertAdjacentHTML('beforeend', this.contactsList({contacts, input, filtered}));
     }
   }
 
@@ -78,12 +82,25 @@ class View {
 
   toggleContactForm(handler) {
     this.main.addEventListener('click', e => {
-      if (e.target.classList.contains('add-edit')) {
+      if (e.target.classList.contains('add')) {
         e.preventDefault();
         let action = e.target.dataset.action;
         let contactId = this.getContactId(e.target);
         this.main.innerHTML = '';
         this.main.insertAdjacentHTML('beforeend', this.contactFormTempl({action, contactId}));
+        this.tagsFeature();
+      } else if (e.target.classList.contains('edit')) {
+        e.preventDefault();
+        let action = e.target.dataset.action;
+        let contactId = this.getContactId(e.target);
+        this.main.innerHTML = '';
+        let contactTile = e.target.closest('.contact-tile');
+        let name = $(contactTile).find('h3')[0].dataset.value;
+        let email = $(contactTile).find('.email')[0].dataset.value;
+        let phone = $(contactTile).find('.phone')[0].dataset.value;
+        let tags = $(contactTile).find('.tags')[0].dataset.value;
+        let contact = {name, email, phone, tags}
+        this.main.insertAdjacentHTML('beforeend', this.contactFormTempl({action, contactId, contact}));
         this.tagsFeature();
       } else if (e.target.classList.contains('cancel')) {
         handler();
@@ -105,22 +122,23 @@ class View {
     this.addTag.addEventListener('click', (e) => {
       e.preventDefault();
       const tagValue = this.tagInput.value.trim().toLowerCase();
+      let tags = this.getElement('.tag-container').querySelectorAll('.tag');
+      this.tags = [...tags].map(tag => tag.dataset.tagValue).join(',');
       if (tagValue === '' || this.tags.includes(tagValue)) {
         this.tagInput.value = '';
         return;
+      } else {
+        this.tagContainer.insertAdjacentHTML('afterbegin', this.formTagsTempl({tagValue}));
+        this.tagInput.value = '';
       }
-      this.tags.push(tagValue);
-      this.getElement('#tags').value = this.tags.join(',');
-      this.tagContainer.insertBefore(this.createTag(tagValue), this.tagInput);
-      this.tagInput.value = '';
     });
   }
 
   removeContactTags() {
     this.tagContainer.addEventListener('click', (e) => {
-      e.preventDefault();
       if (e.target.classList.contains('remove-tag')) {
-        this.tags = this.tags.filter(tag => tag !== e.target.closest('.tag').dataset.tagValue);
+        e.preventDefault();
+        this.tags = [...this.tags].filter(tag => tag !== e.target.closest('.tag').dataset.tagValue);
         this.getElement('#tags').value = this.tags.join(',');
         this.tagContainer.removeChild(e.target.closest('.tag'));
       }
@@ -149,12 +167,15 @@ class View {
 
   bindAddContact(handler) {
     this.main.addEventListener('submit', (e) => {
-      e.preventDefault();
       if (e.target.dataset.actionType === 'Create' &&
           e.submitter.classList.contains('submit')) {
+        e.preventDefault();
         let form = e.target.closest('form');
         let data = new FormData(form);
         let json = this.toJson(data)
+        let tags = this.getElement('.tag-container').querySelectorAll('.tag')
+        this.tags = [...tags].map(tag => tag.dataset.tagValue).join(',')
+        json.tags = this.tags;
         handler(json);
       }
     });
@@ -162,12 +183,15 @@ class View {
 
   bindEditContact(handler) {
     this.main.addEventListener('submit', (e) => {
-      e.preventDefault();
       if (e.target.dataset.actionType === 'Edit' &&
-      e.submitter.classList.contains('submit')) {
+          e.submitter.classList.contains('submit')) {
+        e.preventDefault();
         let form = e.target.closest('form');
         let data = new FormData(form);
         let json = this.toJson(data)
+        let tags = this.getElement('.tag-container').querySelectorAll('.tag')
+        this.tags = [...tags].map(tag => tag.dataset.tagValue).join(',')
+        json.tags = this.tags;
         handler(form.dataset.contactId, json);
       }
     });
@@ -181,6 +205,25 @@ class View {
           let contactId = this.getContactId(e.target);
           handler(contactId);
         }
+      }
+    });
+  }
+
+  bindFilterTags(handler) {
+    this.main.addEventListener('click', e => {
+      if (e.target.tagName === 'A') {
+        e.preventDefault();
+        let tagValue = e.target.innerText.slice(1);
+        handler(tagValue)
+      }
+    });
+  }
+
+  bindSearchFilter(handler) {
+    this.main.addEventListener('input', e => {
+      if (e.target.className === 'search') {
+        let input = e.target.value;
+        handler(input);
       }
     });
   }
