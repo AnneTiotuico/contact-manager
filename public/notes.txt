@@ -173,3 +173,17 @@ To start:
     - phone
       - all digits only
       - 10 digits ?
+
+
+  - filter by tags:
+    - in view:
+      - if user clicks element and it's an anchor tag, then get the innertext of that element to get just the text (not the '#')
+    - in controller:
+      - invoke method in view bindFilterTags
+        - pass in handle filterTags method
+      - handle filterTags method that takes an arg 'tag'
+        - invokes the model method that filters the contacts
+
+    - in model:
+      - a method that takes in the tag text
+      -

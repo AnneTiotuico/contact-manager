@@ -27,7 +27,7 @@
   <script id="searchTemplate" type="text/x-handlebars">
      <div class="search-nav">
       <button class="add add-edit btn-outline" data-action="Create">
-        <span class="material-symbols-outlined">
+        <span class="add-edit material-symbols-outlined">
           person_add
         </span>
         Add Contact
@@ -40,7 +40,7 @@
     {{> searchTemplate}}
     <h3>There are no contacts.</h3>
     <button class="add add-edit btn-outline" data-action="Create">
-      <span class="material-symbols-outlined">
+      <span class="add-edit material-symbols-outlined">
         person_add
       </span>
       Add Contact
@@ -52,10 +52,6 @@
     <div>
       <h3>There are no contacts that start with 'letter'.</h3>
     </div>
-  </script>
-
-  <script id="tagsTemplate" type="text/x-handlebars">
-
   </script>
 
   <script id="contactFormTemplate" type="text/x-handlebars">
@@ -92,25 +88,33 @@
       </form>
   </script>
 
+  <script id="tagsDisplayTemplate" type="text/x-handlebars">
+      <div class="taglink"> 
+        <a href="#" class="contact-tag">#{{this}}</a>
+      </div>
+  </script>
+
   <script id="contactDisplayTemplate" type="text/x-handlebars">
     <div class="contact-tile" data-contact-id="{{id}}">
       <h3>{{full_name}}</h3>
-      <dl>
-        <dt>Phone Number:</dt>
-        <dd>{{phone_number}}
-        <dt>Email:</dt>
-        <dd>{{email}}
-        <dt>Tags:</dt>
-        <dd>{{tags}}</dd>
-      </dl>
+      <p class="label">Phone Number:</p>
+      <p class="contact-value">{{phone_number}}</p>
+      <p class="label">Email:</p>
+      <p class="contact-value">{{email}}</p>
+      <p class="label">Tags:</p>
+      <div class="taglinks-container">
+        {{#each (splitTags tags) }}
+        {{> tagsDisplayTemplate }}
+        {{/each}}
+      </div>
       <button class="add-edit btn-outline" data-action="Edit">
-        <span class="edit material-symbols-outlined">
+        <span class="edit add-edit material-symbols-outlined">
           edit
         </span>
         Edit
       </button>
       <button class="delete btn-outline">
-        <span class="material-symbols-outlined">
+        <span class="delete material-symbols-outlined">
           delete
         </span>
         Delete
@@ -120,6 +124,9 @@
 
   <script id="contactsList" type="text/x-handlebars">
     {{> searchTemplate}}
+    {{#if filtered}}
+    <button class="show-all btn-outline">Show All Contacts</button>
+    {{/if}}
     <div class="contacts-list">
       {{#each contacts}}
       {{> contactDisplayTemplate }}
@@ -127,7 +134,7 @@
     </div>
   </script>
 
-  <script src="/javascripts/contacts.js"></script>
+  <script src="/javascripts/controller.js" type="module"></script>
 </body>
 </html>
 

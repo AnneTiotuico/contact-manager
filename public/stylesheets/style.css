@@ -85,11 +85,6 @@ button:hover {
   margin-right: 5%;
 }
 
-.tags-field ul {
-  border: 1px solid red;
-  display: flex;
-}
-
 /* contact list and contact tile styles */
 
 .contacts-list {
@@ -118,7 +113,7 @@ button:hover {
   margin-right: 4px;
 }
 
-/* body & header & footer */
+/* body & header & footer & p*/
 
 body {
 	margin: 0 auto;
@@ -134,8 +129,14 @@ footer {
 	text-align: center;
 }
 
-footer a {
+footer a:hover {
+  text-decoration: underline;
+}
+
+a {
+  cursor: pointer;
 	text-decoration: none;
+  color: #602db3;
 }
 
 header {
@@ -149,8 +150,16 @@ header {
   background-color: #6f5499;
 }
 
-/* tags in input */
+p.label {
+  font-weight: 600;
+  margin-bottom: 3px;
+}
 
+p.contact-value {
+  margin: 0;
+}
+
+/* tags in input */
 
 .tag-container {
   max-width: 60.3%;
@@ -189,6 +198,27 @@ header {
   border: 0;
   min-width: 80px;
   width: 100%;
+}
+
+.taglinks-container {
+  padding: 5px 0;
+  min-height: 10%;
+}
+
+.taglink {
+  padding: 1px 4px;
+  border: 1px solid #e0e0e0;
+  margin: 1px 3px;
+  display: flex;
+  display: inline-flex;
+  border-radius: 3px;
+  background: #e8e6e67d;
+  color: #563d7c;
+  font-size: 16px;
+}
+
+.taglink:hover {
+  background: #c5b7da;
 }
 
 

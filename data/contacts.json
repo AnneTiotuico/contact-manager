@@ -4,14 +4,14 @@
     "full_name": "Naveed Fida",
     "email": "nf@example.com",
     "phone_number": "12345678901",
-    "tags": "test"
+    "tags": "sdasf,sdf,sdfa"
   },
   {
     "id": 2,
     "full_name": "Victor Reyes",
     "email": "vpr@example.com",
     "phone_number": "09876543210",
-    "tags": "work,friend"
+    "tags": "k"
   },
   {
     "id": 3,
@@ -24,21 +24,35 @@
     "full_name": "me",
     "phone_number": "1234567890",
     "email": "me@me.com",
-    "tags": "me",
+    "tags": "test",
     "id": 4
   },
   {
     "full_name": "anne",
     "phone_number": "123",
     "email": "test@email.com",
-    "tags": "anne",
+    "tags": "test",
     "id": 6
   },
   {
     "full_name": "testing",
-    "phone_number": "1234",
+    "phone_number": "23545",
     "email": "test@email.com",
     "tags": "test",
     "id": 7
+  },
+  {
+    "full_name": "updateme",
+    "phone_number": "23545",
+    "email": "test@email.com",
+    "tags": "update",
+    "id": 8
+  },
+  {
+    "full_name": "edited",
+    "phone_number": "1234",
+    "email": "test@email.com",
+    "tags": "update",
+    "id": 10
   }
 ]
