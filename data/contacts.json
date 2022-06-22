@@ -47,12 +47,5 @@
     "email": "test@email.com",
     "tags": "test,update,hi",
     "id": 9
-  },
-  {
-    "full_name": "annemelody",
-    "phone_number": "",
-    "email": "",
-    "tags": "",
-    "id": 10
   }
 ]
