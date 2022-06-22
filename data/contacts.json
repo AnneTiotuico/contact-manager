@@ -36,8 +36,8 @@
   },
   {
     "full_name": "edited",
-    "phone_number": null,
-    "email": null,
+    "phone_number": "23545",
+    "email": "test@email.com",
     "tags": "updates",
     "id": 7
   },
@@ -45,14 +45,14 @@
     "full_name": "updateme",
     "phone_number": "1234",
     "email": "test@email.com",
-    "tags": "test,update,set,hi",
+    "tags": "test,update,hi",
     "id": 9
   },
   {
     "full_name": "annemelody",
-    "phone_number": "23545",
-    "email": "test@email.com",
-    "tags": "hi,hello",
+    "phone_number": "",
+    "email": "",
+    "tags": "",
     "id": 10
   }
 ]

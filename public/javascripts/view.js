@@ -191,8 +191,8 @@ class View {
         let data = new FormData(form);
         let json = this.toJson(data)
         let tags = this.getElement('.tag-container').querySelectorAll('.tag')
-        this.tags = [...tags].map(tag => tag.dataset.tagValue).join(',')
-        json.tags = this.tags;
+        this.tags = [...tags].map(tag => tag.dataset.tagValue).join(',');
+        if (this.tags > 1) json.tags = this.tags;
         handler(json);
       }
     });
@@ -208,7 +208,11 @@ class View {
         let json = this.toJson(data)
         let tags = this.getElement('.tag-container').querySelectorAll('.tag');
         this.tags = [...tags].map(tag => tag.dataset.tagValue).join(',');
-        json.tags = this.tags;
+        let name = this.getElement('#full_name').value;
+        let email = this.getElement('#email').value;
+        let phone = this.getElement('#phone_number').value;
+        json = {full_name: name, email, phone_number: phone, tags: this.tags,};
+
         handler(form.dataset.contactId, json);
       }
     });
