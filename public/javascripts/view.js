@@ -123,12 +123,15 @@ class View {
       e.preventDefault();
       const tagValue = this.tagInput.value.trim().toLowerCase();
       let tags = this.getElement('.tag-container').querySelectorAll('.tag');
-      this.tags = [...tags].map(tag => tag.dataset.tagValue).join(',');
-      if (tagValue === '' || this.tags.includes(tagValue)) {
+      tags = [...tags].map(tag => tag.dataset.tagValue)
+      this.tags = tags.join(',');
+      if (tagValue === '' || tags.includes(tagValue)) {
         this.tagInput.value = '';
         return;
       } else {
-        this.tagContainer.insertAdjacentHTML('afterbegin', this.formTagsTempl({tagValue}));
+        let tempDiv = this.createElement('div');
+        tempDiv.insertAdjacentHTML('beforeend', this.formTagsTempl({tagValue}));
+        this.tagContainer.insertBefore(tempDiv.lastElementChild, this.tagInput);
         this.tagInput.value = '';
       }
     });
@@ -189,8 +192,8 @@ class View {
         let form = e.target.closest('form');
         let data = new FormData(form);
         let json = this.toJson(data)
-        let tags = this.getElement('.tag-container').querySelectorAll('.tag')
-        this.tags = [...tags].map(tag => tag.dataset.tagValue).join(',')
+        let tags = this.getElement('.tag-container').querySelectorAll('.tag');
+        this.tags = [...tags].map(tag => tag.dataset.tagValue).join(',');
         json.tags = this.tags;
         handler(form.dataset.contactId, json);
       }

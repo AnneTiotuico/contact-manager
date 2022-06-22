@@ -27,7 +27,7 @@
   <script id="searchTemplate" type="text/x-handlebars">
      <div class="search-nav">
       <button class="add add-edit btn-outline" data-action="Create">
-        <span class="add-edit material-symbols-outlined">
+        <span class="add add-edit material-symbols-outlined" data-action="Create">
           person_add
         </span>
         Add Contact
@@ -41,7 +41,7 @@
     <div class="no-contacts">
       <h3>There are no contacts.</h3>
       <button class="add add-edit btn-outline" data-action="Create">
-        <span class="add-edit material-symbols-outlined">
+        <span class="add add-edit material-symbols-outlined" data-action="Create">
           person_add
         </span>
         Add Contact
@@ -139,7 +139,7 @@
         {{/each}}
       </div>
       <button class="edit add-edit btn-outline" data-action="Edit">
-        <span class="edit add-edit material-symbols-outlined">
+        <span class="edit add-edit material-symbols-outlined" data-action="Edit">
           edit
         </span>
         Edit

@@ -45,14 +45,14 @@
     "full_name": "updateme",
     "phone_number": "1234",
     "email": "test@email.com",
-    "tags": "update,test,hi",
+    "tags": "test,hi,testing,t",
     "id": 8
   },
   {
-    "full_name": "annemelody",
+    "full_name": "updateme",
     "phone_number": "1234",
     "email": "test@email.com",
-    "tags": "test,there,here",
+    "tags": "test,hi",
     "id": 9
   }
 ]
