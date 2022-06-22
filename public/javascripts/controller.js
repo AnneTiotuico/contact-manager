@@ -1,5 +1,6 @@
 import { Model } from './model.js'; 
 import { View } from './view.js'; 
+import { debounce } from './debounce.js';
 
 class Controller {
   constructor(model, view) {
@@ -46,10 +47,10 @@ class Controller {
     this.view.displayContacts(filteredTags, null, true);
   }
 
-  handleFilterSearch = input => {
+  handleFilterSearch = debounce(input => {
     let filteredSearch = this.model.filterSearch(input);
     this.view.displayContacts(filteredSearch, input, true);
-  }
+  }, 500);
 }
 
 const app = new Controller(new Model(), new View());

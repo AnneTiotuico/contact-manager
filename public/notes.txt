@@ -187,3 +187,7 @@ To start:
     - in model:
       - a method that takes in the tag text
       -
+
+  - filter by search
+    - in view:
+      - if user types into search input box, then get the 

@@ -54,7 +54,7 @@ class Model {
   filterSearch(input) {
     return this.contacts.filter(({full_name}) => {
       full_name = full_name.toLowerCase();
-      return full_name.startsWith(input.toLowerCase());
+      return full_name.startsWith(input);
     });
   }
 

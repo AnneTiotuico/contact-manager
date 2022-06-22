@@ -1,3 +1,5 @@
+import { debounce } from './debounce.js';
+
 class View {
   constructor() {
     // element we're placing everything in
@@ -65,12 +67,24 @@ class View {
   displayContacts(contacts, input, filtered) {
     // resets the main tag's inner html before adding the updated contents
     this.main.innerHTML = '';
-    if (contacts.length < 1) {
+    console.log(contacts, input, filtered)
+    if (contacts.length < 1 && !input) {
       // displays no contacts and add button
       this.main.insertAdjacentHTML('beforeend', this.noContactsTempl());
+    } else if (contacts.length < 1 && input) {
+      this.main.insertAdjacentHTML('beforeend', this.noMatchTempl({input, filtered}));
+      let searchBox = this.getElement('.search');
+      console.log('no contacts')
+      searchBox.focus();
+      searchBox.value = input;
     } else {
       // displays each contact
       this.main.insertAdjacentHTML('beforeend', this.contactsList({contacts, input, filtered}));
+      let searchBox = this.getElement('.search');
+      if (input) {
+        searchBox.focus();
+        searchBox.value = input;
+      }
     }
   }
 
@@ -225,8 +239,8 @@ class View {
   bindSearchFilter(handler) {
     this.main.addEventListener('input', e => {
       if (e.target.className === 'search') {
-        let input = e.target.value;
-        handler(input);
+        let input = e.target.value.toLowerCase();
+        debounce(handler(input), 300);
       }
     });
   }
